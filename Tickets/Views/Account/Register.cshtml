@@ -1,0 +1,39 @@
+﻿@using Tickets.Data.ViewModels;
+@model RegisterVM;
+
+
+
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <p >
+            <h4 style="color: white"> <i class="bi bi-person-add"></i> Criar nova conta</h4>
+        </p>
+ 
+        <div class="row">
+             <div class="col-md-8 offset-2">
+                 <form asp-action="Register" method="post">
+                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="EmailAddress" class="control-label text-white"></label>
+                        <input asp-for="EmailAddress" class="form-control" />
+                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label text-white"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <span style="padding: 3px;"></span>
+                    <div class="form-group">
+                        <input class="btn btn-warning text-black float-right" type="submit" value="Registrar"/>
+                        <a class="btn btn-danger text-black" asp-controller="Filme" asp-action="Index">Cancelar</a>
+                    </div>
+                 </form>
+             </div>
+        </div>
+    </div>
+</div>

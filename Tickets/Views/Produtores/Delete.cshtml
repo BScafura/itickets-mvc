@@ -1,0 +1,51 @@
+﻿@model Produtor
+
+@{
+    ViewData["Title"] = "Excluir um produtor";
+}
+
+<div class="row-text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h2><i class="bi bi-person-fill-x"></i>Deseja deletar o produtor @Model.Nome ?</h2>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-1">
+                <div class="form-group text-center">
+                    <img class="border-info rounded-circle" style="max-width:150px ;  min-width:150px;  min-height:150px; max-height:150px; object-fit:cover" id="FotoProfilePreview" />
+                </div>
+                <div style="padding: 10px;" class="form-group">
+                    <label asp-for="FotoProfile" class="control-label"></label>
+                    <input asp-for="FotoProfile" class="form-control" readonly />
+                    <span asp-validation-for="FotoProfile" class="text-danger"></span>
+                </div>
+                <div style="padding: 10px;" class="form-group">
+                    <label asp-for="Nome" class="control-label"></label>
+                    <input asp-for="Nome" class="form-control" readonly />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+                <div style="padding: 10px;" class="form-group">
+                    <label asp-for="Bio" class="control-label"></label>
+                    <input asp-for="Bio" class="form-control" readonly />
+                    <span asp-validation-for="Bio" class="text-danger"></span>
+                </div>
+                <div style="padding: 10px;" class="form-group">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="submit" value="Confirmar" class="btn btn-danger float-right" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Mostrar todos</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var output = document.getElementById('FotoProfilePreview');
+            output.src = $("#FotoProfile").val();
+        })
+    </script>
+}

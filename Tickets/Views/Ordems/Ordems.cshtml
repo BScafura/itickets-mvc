@@ -1,0 +1,120 @@
+﻿@using Tickets.Data.ViewModels;
+@model CarrinhoComprasVM 
+
+@{
+    ViewData["Title"] = "Resumo das compras";
+
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <div class="text-center">
+            <h2><i class="bi bi-cart"></i> Carrinho</h2>
+        </div>
+        <br />
+        <br />
+        <table class="table">
+            <thead>
+            <td style="color: white">Quantidade</td>
+            <td style="color: white">Filme</td>
+            <td style ="color: white">Preco</td>
+            <td style="color: white">Subtotal</td>
+            <td style ="color: white"></td>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Carrinho.carrinhoDeComprasItems)
+                {
+                    <tr>
+                        <td style ="color: white"class="align-middle">@item.Quantidade</td>
+                        <td style="color: white" class="align-middle">@item.Filme.Titulo</td>
+                        <td style="color: white" class="align-middle">@item.Filme.Preco.ToString("c")</td>
+                        <td style="color: white" class="align-middle">@((item.Quantidade * item.Filme.Preco).ToString("c"))</td>
+                        <td style="color: white" class="align-middle">
+                            <a class="text-center" asp-controller="Ordems" asp-action="RemoverDoCarrinho" asp-route-id="@item.Filme.Id" style="color:red;"><i class="bi bi-cart-dash"></i></a>
+                            |
+                            <a class="text-center" asp-controller="Ordems" asp-action="AdicionarAoCarrinho" asp-route-id="@item.Filme.Id" style="color:green;"><i class="bi bi-cart-plus"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3"></td>
+                    <td><b style="color: white">Total: </b></td>
+                    <td style="color: white">
+                        @Model.CarrinhoTotal.ToString("c")
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div style="display:flex; justify-content: flex-end;">
+        <div id="paypal-btn"></div>
+        </div>
+        <br />
+        <br />
+        <div class="col-md-12 text-center">
+            <div class="btn-group">
+                @*<a class="btn btn-outline-primary" asp-controller="Ordems" asp-action="CompletarOrdem">Finalizar a Compra</a>*@
+                <span style="padding: 5px"></span>
+                <a class="btn btn-warning" asp-controller="Filme" asp-action="Index">Continuar comprando</a>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+@section Scripts{
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    
+    <script>
+        let _total = @Model.CarrinhoTotal;
+
+        paypal.Button.render({
+            //Configuracao do ambiente
+            env: 'sandbox',
+            client: {
+                sandbox: 'ATPyTvhYXDkSeSX_F-ek5SLJ2P1zgQh9tZzl7wWzNm-bjJ8iKt0T9_1rNG65vez5N7JAvpdW02mhymCD'
+            },
+            //Configuracao do botao
+            locale:'pt_PT',
+            style: {
+               size:'small',
+               color:'gold',
+               shape:'pill'
+
+            },
+            commit:true,
+            //Inserir pagamento
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: _total,
+                            currency: 'EUR'
+                        }
+                    }]
+                });
+            },
+            
+            //Executar pagamento
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute().then(function(){
+                    var url = '@Url.Action("CompletarOrdem", "Ordems", new{})';
+                    window.location.href = url;
+                })
+            }
+
+        }, '#paypal-btn');
+       
+
+
+    </script>
+
+
+
+
+}

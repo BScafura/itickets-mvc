@@ -1,0 +1,96 @@
+﻿@model AddVMFilme
+
+@{
+
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2 text-center">
+        <p>
+            <h4>Inserir novo registo de Filme</h4>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <img width="100%" id="CartazPreview" style="max-width:207.2px ; min-width:207.2px; min-height:328.2px; max-height:328.2px; object-fit:cover" />
+                <form asp-action="Editar">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row" style="padding:10px">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Titulo" class="control-label"></label>
+                                <input asp-for="Titulo" class="form-control" />
+                                <span asp-validation-for="Titulo" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DataInicio" class="control-label"></label>
+                                <input asp-for="DataInicio" type="date" class="form-control" />
+                                <span asp-validation-for="DataInicio" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DataFim" class="control-label"></label>
+                                <input asp-for="DataFim" type="date" class="form-control" />
+                                <span asp-validation-for="DataFim" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Preco" class="control-label"></label>
+                                <input asp-for="Preco" type="number" class="form-control" />
+                                <span asp-validation-for="Preco" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Cartazurl" class="control-label"></label>
+                                <input asp-for="Cartazurl" class="form-control" />
+                                <span asp-validation-for="Cartazurl" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="CinemaId" class="control-label"></label>
+                                <select asp-for="CinemaId" class="form-control" asp-items="ViewBag.CinemaId"></select>
+                                <span asp-validation-for="CinemaId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="MovieCategory" class="control-label"></label>
+                                <select asp-for="MovieCategory" class="form-control" asp-items="ViewBag.MovieCategory"></select>
+                                <span asp-validation-for="MovieCategory" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ProdutorId" class="control-label"></label>
+                                <select asp-for="ProdutorId" class="form-control" asp-items="ViewBag.ProdutorId"></select>
+                                <span asp-validation-for="ProdutorId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="AtorIds" class="control-label"></label>
+                                <select asp-for="AtorIds" class="form-control" asp-items="ViewBag.AtorId" multiple></select>
+                                <span asp-validation-for="AtorIds" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Sinopse" class="control-label"></label>
+                                <textarea asp-for="Sinopse" class="form-control"></textarea>
+                                <span asp-validation-for="Sinopse" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="padding:10px">
+                        <input type="submit" value="Editar" class="btn btn-outline-success float-right" method="post" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Mostrar todos</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var output = document.getElementById('CartazPreview');
+            output.src = $("#Cartazurl").val();
+        });
+        $("#Cartazurl").on("change", function () {
+            var output = document.getElementById('CartazPreview');
+            output.src = $(this).val();
+        })
+
+    </script>
+}

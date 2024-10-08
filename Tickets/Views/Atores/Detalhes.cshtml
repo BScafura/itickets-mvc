@@ -1,0 +1,47 @@
+﻿@model Ator
+
+@{
+    ViewData["Title"] = "Adicionar um novo ator";
+}
+
+<div class="row-text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h2 style="color:white"><i class="bi bi-person-lines-fill"></i> Detalhes de @Model.NomeAtor</h2>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-1">
+                <div class="form-group text-center">
+                    <img class="border-info rounded-circle" style="max-width:150px ;  min-width:150px;  min-height:150px; max-height:150px; object-fit:cover" id="FotoProfilePreview" />
+                </div>
+                <div style="padding: 10px;" class="form-group">
+                    <label asp-for="FotoProfile" class="control-label text-white"></label>
+                    <input asp-for="FotoProfile" class="form-control" readonly />
+                    <span asp-validation-for="FotoProfile" class="text-danger"></span>
+                </div>
+                <div style="padding: 10px;" class="form-group">
+                    <label asp-for="NomeAtor" class="control-label text-white"></label>
+                    <input asp-for="NomeAtor" class="form-control" readonly />
+                    <span asp-validation-for="NomeAtor" class="text-danger"></span>
+                </div>
+                <div style="padding: 10px;" class="form-group">
+                    <label asp-for="Bio" class="control-label text-white"></label>
+                    <textarea asp-for="Bio" class="form-control" readonly ></textarea>
+                    <span asp-validation-for="Bio" class="text-danger"></span>
+                </div>
+                <div style="padding: 10px;" class="form-group">
+                    <a class="btn btn-warning text-black float-right" asp-action="Editar" asp-route-id="@Model.Id">Editar</a>
+                    <a class="btn btn-warning text-black" asp-action="Index">Mostrar todos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function (){
+                var output = document.getElementById('FotoProfilePreview');
+                output.src = $("#FotoProfile").val();
+            })
+        </script>
+    }

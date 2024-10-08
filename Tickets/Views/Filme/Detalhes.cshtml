@@ -1,0 +1,90 @@
+﻿@using System.Globalization
+
+@{
+    ViewData["Title"] = "Detalhes do filme";
+}
+
+<div class="row">
+    @foreach (var item in ViewBag.DetalhesF)
+    {
+        <div class="col-md-10 offset-1">
+            <div class="card mb-12">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-dark bg-gradient">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @item.Titulo
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="@item.Cartazurl" width="100%" height="100%" alt="@item.Titulo">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text">@item.Sinopse</p>
+                            <p class="card-text"><a class="text-decoration-none" asp-controller="Cinema" asp-action="Detalhes" asp-route-id="@item.CinemaId"><b>Cinema: </b>@item.Nome</a></p>
+                            @foreach (var produtor in ViewBag.DetalhesP)
+                            {
+                                <p class="card-text"><a class="text-decoration-none" asp-controller="Produtores" asp-action="Detalhes" asp-route-id="@produtor.ProdutorId"><b>Produtor: </b>@produtor.Nome</a></p>
+                            }
+                            <p class="card-text"><b>Category: </b>@item.MovieCategory</p>
+                            <p class="card-text"><b>Data de Inicio: </b>@item.DataInicio.ToString("dd MMM yy")</p>
+                            <p class="card-text"><b>Data Final: </b>@item.DataFim.ToString("dd MMM yy")</p>
+                            <p class="card-text ">
+                                <b>Status: </b>
+                                @if (DateTime.Now >= item.DataInicio && DateTime.Now <= item.DataFim)
+                                {
+                                    <span class="badge bg-success text-white">DISPONIVEL</span>
+                                }
+                                else if (DateTime.Now > item.DataFim)
+                                {
+                                    <span class="badge bg-danger text-white">EXPIRADO</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary text-white">EM BREVE</span>
+                                }
+                            </p>
+
+                            <p class="card-text">
+                                <b>Atores: </b>
+                                <hr />
+                                <div class="row">
+                                @foreach (var itemE in ViewBag.DetalhesE)
+                                {
+                                    @foreach (var ator in itemE.Elenco)
+                                    {
+                                        <div class="col-md-2 text-center">
+                                            <img class="border-info rounded-circle" style="max-width:100px ;  min-width:100px;  min-height:100px; max-height:100px; object-fit:cover" src="@ator.FotoProfile" />
+                                            <br />
+                                                <a class="text-decoration-none" asp-controller="Atores" asp-action="Detalhes" asp-route-id="@ator.ElencoAtorId">@ator.NomeAtor</a>
+                                        </div>
+                                    }
+                                }
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer ">
+                            <p class="card-text">
+                                <a class="btn btn-dark float-right" asp-action="Index">
+                                   Mostrar Todos
+                                </a>
+                                <a class="btn btn-warning text-dark @((DateTime.Now > item.DataFim) ? "disabled" : "")"
+                                   asp-controller="Ordems"
+                                   asp-action="AdicionarAoCarrinho"
+                                   asp-route-id="@item.Id">
+                                    <i class="bi bi-cart-plus"></i> Adicionar ao carrinho (Preco @item.Preco.ToString("c", new CultureInfo("pt-PT")))
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

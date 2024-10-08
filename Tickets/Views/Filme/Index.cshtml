@@ -1,0 +1,90 @@
+﻿@using System.Globalization
+
+
+@{
+    ViewData["Title"] = "Lista de Filmes";
+}
+
+<div class="row">
+    @foreach (var item in ViewBag.ListaFilmes)
+    {
+        <div class="col-md-4 col-xs-6 border-primary mb-3">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white" style="background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @item.Titulo
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                    }
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="@item.Cartazurl" width="100%" height="100%" style="max-width:207.2px ; min-width:207.2px; min-height:328.2px; max-height:328.2px; object-fit:cover" alt="@item.Titulo">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <p class="card-text"><b>Cinema: </b>@item.Nome</p>
+                            <p class="card-text"><b>Category: </b>@item.MovieCategory</p>
+                            <p class="card-text"><b>Data de Inicio: </b>@item.DataInicio.ToString("dd MMM yy")</p>
+                            <p class="card-text"><b>Data Final: </b>@item.DataFim.ToString("dd MMM yy")</p>
+                            <p class="card-text ">
+                                <b>Status: </b>
+                                @if (DateTime.Now >= item.DataInicio && DateTime.Now <= item.DataFim)
+                                {
+                                    <span class="badge bg-success text-white">DISPONIVEL</span>
+                                }
+                                else if (DateTime.Now > item.DataFim)
+                                {
+                                    <span class="badge bg-danger text-white">EXPIRADO</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary text-white">EM BREVE</span>
+                                }
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer ">
+                            <p class="card-text text-center">
+                                <a class="btn btn-dark float-right" asp-action="Detalhes" asp-route-id="@item.Id">
+                                    <i class="bi bi-eye-fill"></i> Detalhes
+                                </a>
+                                <a class="btn btn-warning text-black @((DateTime.Now > item.DataFim) ? "disabled" : "")"
+                                   asp-controller="Ordems"
+                                   asp-action="AdicionarAoCarrinho"
+                                   asp-route-id="@item.Id">
+                                    <i class="bi bi-cart-plus" style="color:black"></i> Add ao carrinho (Preco @item.Preco.ToString("C", new CultureInfo("pt-PT")))
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="col-md-6 offset-3" align="center" style=" text-align: center; vertical-align: middle;">
+        <div>
+            <a class="btn btn-warning" asp-action="Login" asp-controller="Account">Faça login para mais conteúdo</a>
+        </div>
+        <div>
+            <span style="padding: 5px;"></span>
+            <p style="color:white;">Nos siga nas redes sociais</p>
+            <ul style="padding:0;">
+                <li style="font-size:24px; display: inline-block;"><i class="bi bi-instagram" style="color:white"></i></li>
+                <span style="padding: 5px;"></span>
+                <li style="font-size:24px; display: inline-block;"><i class="bi bi-facebook" style="color:white"></i></li>
+                <span style="font-size:24px; padding: 5px;"></span>
+                <li style="font-size:24px; display: inline-block;"><i class="bi bi-twitter-x" style="color:white"></i></li>
+                <span style="padding: 5px;"></span>
+                <li style="font-size:24px; display: inline-block;"><i class="bi bi-youtube" style="color:white"></i></li>
+            </ul>
+        </div>
+   </div>

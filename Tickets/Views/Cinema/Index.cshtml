@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Cinema>
+
+@{
+    ViewData["Title"] = "Lista de Cinemas";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th style="color:white">@Html.DisplayNameFor(model => model.Logo)</th>
+                    <th style="color:white">@Html.DisplayNameFor(model => model.Nome)</th>
+                    <th style="color:white">@Html.DisplayNameFor(model => model.Descricao)</th>
+                    <th style="color:white">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="color:white" class="align-middle">
+                            <img class="rounded-circle" src="@item.Logo" alt="@item.Nome" style="max-width: 150px" />
+                        </td>
+                        <td style="color:white" class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td style="color:white" class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Descricao)
+
+                        </td>
+                        <td class="align-middle" style="max-width:106px">
+                            <a class="btn btn-warning btn-sm text-black w-100" asp-controller="Cinema" asp-action="Editar" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Editar</a>
+                            <span style="padding: 1px;"></span>
+                            <a class="btn btn-warning btn-sm text-black w-100" asp-controller="Cinema" asp-action="Detalhes" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Detalhes</a>
+                            <span style="padding: 1px;"></span>
+                            <a class="btn btn-danger btn-sm text-black w-100" asp-controller="Cinema" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Excluir</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="position:fixed; right: 25px; bottom: 10px; z-index: 1" class="text-white">
+    <a asp-controller="Cinema" asp-action="Criar" class="btn btn-success"><i class="bi bi-plus-circle"></i>Criar novo</a>
+</div>
